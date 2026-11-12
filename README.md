@@ -1,16 +1,20 @@
 # Mood-Based Book Recommendation System
 
-Independent research project building a mood-aware recommendation pipeline using NLP and sentiment analysis.
+Independent research project on mood-aware book recommendation using NLP on Goodreads reviews (UCSD Book Graph, romance genre).
 
-## Current Status
-- Built a data collection pipeline over the UCSD Book Graph (Goodreads) academic dataset, currently scoped to the romance genre as a first pass
-- Screened ~359,000 reviews, retained 20,000 (5.5%) via evidence-validated filters (minimum engagement/vote count, minimum review length)
-- Thresholds validated against underlying data distributions rather than set arbitrarily
-- Built a cleaning pipeline (spoiler-tag removal, whitespace/text normalization)
-- Current phase: extracting mood/tone signal using sentence embeddings (sentence-transformers, all-MiniLM-L6-v2) paired with VADER for sentiment scoring
+## Results so far
+| Test | Result |
+|---|---|
+| Ridge regression, star rating from VADER score | R2 = 0.072 (5-fold CV) |
+| Ridge regression, star rating from sentence embeddings | R2 = 0.289 (5-fold CV) |
 
-## Goal
-Test whether mood-aware signals improve recommendation relevance over conventional preference-based baselines. Genre-general expansion planned once the single-genre pipeline is validated.
+Embeddings explain about 4x more rating variance than VADER on 20,000 reviews.
+
+## Data coverage
+20,000 engagement-filtered reviews cover 13,429 books (median 1 review per book). Only 400 books have 5+ reviews, so the mood search prototype is limited to those.
+
+## Current phase
+Prototype mood search (averaged review embeddings per book, cosine similarity to a mood query), compared against a TF-IDF keyword baseline. Investigating whether repeated results come from word matching.
 
 ## Dataset
-Sourced from UCSD Book Graph (Goodreads reviews), academic dataset. Not included in this repo due to licensing terms — contact for details.
+UCSD Book Graph (Goodreads). Not included in this repo due to academic-use licensing.
